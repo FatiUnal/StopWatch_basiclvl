@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI extends JFrame implements ActionListener {
+    JList<String> list;
+    DefaultListModel<String> l;
     JLabel lbl;
-    JButton startBtn,resetBtn;
+    JButton startBtn,resetBtn,checkBtn;
     int hours = 0,minute = 0,second = 0;
     String hours_str = String.format("%02d",hours);
     String minute_str = String.format("%02d",minute);
@@ -30,12 +32,23 @@ public class GUI extends JFrame implements ActionListener {
 
 
     public GUI(){
+        l = new DefaultListModel<>();
+
+
+        list = new JList<>(l);
+        list.setBounds(65,210,270,100);
+
+
+        checkBtn = new JButton("C");
+        checkBtn.setBounds(65,150,50,50);
+        checkBtn.addActionListener(this);
+
         startBtn = new JButton("START");
-        startBtn.setBounds(90,150,110,50);
+        startBtn.setBounds(115,150,110,50);
         startBtn.addActionListener(this);
 
         resetBtn = new JButton("RESET");
-        resetBtn.setBounds(200,150,110,50);
+        resetBtn.setBounds(225,150,110,50);
         resetBtn.addActionListener(this);
 
 
@@ -48,6 +61,8 @@ public class GUI extends JFrame implements ActionListener {
         lbl.setHorizontalAlignment(JTextField.CENTER);
         lbl.setFont(new Font("Verdana",Font.PLAIN,35));
 
+        add(list);
+        add(checkBtn);
         add(startBtn);
         add(lbl);
         add(resetBtn);
@@ -84,6 +99,10 @@ public class GUI extends JFrame implements ActionListener {
         timer.stop();
 
     }
+    public void check(String st1,String st2,String st3){
+        l.addElement(st1+" : "+st2+" : "+st3);
+
+    }
 
 
 
@@ -105,7 +124,12 @@ public class GUI extends JFrame implements ActionListener {
         if (e.getSource() == resetBtn){
             reset();
             startBtn.setText("START");
+            l.clear();
 
+        }
+
+        if (e.getSource() == checkBtn){
+            check(hours_str,minute_str,second_str);
         }
 
     }
